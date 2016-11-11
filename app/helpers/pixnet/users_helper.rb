@@ -1,0 +1,2 @@
+module Pixnet::UsersHelper
+end

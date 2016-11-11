@@ -1,0 +1,52 @@
+<div class="container">
+
+  <div class="row">
+    <div class="col-lg-12">
+      <h2 class="page-header">Pixnet
+        <small>帳號管理</small>
+      </h1>
+
+      <ol class="breadcrumb">
+        <li><a href="/">Home</a></li>
+        <li>Pixnet</li>
+        <li class="active">User</li>
+      </ol>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-lg-12">
+
+
+      <button type="Add" class="btn btn-primary">新增帳號</button>
+
+      <hr />
+
+      <table class="table">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>帳號</th>
+            <th>文章數</th>
+            <th>動作</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @users.each_with_index do |user, num| %>
+          <tr>
+            <th scope="row"><%= num %></th>
+            <td><%=user.name %></td>
+            <td><%=user.article_count.to_i %></td>
+            <td>
+              <%= origin_button '#' %>
+              <%= fetch_button '#' %>
+              <%= edit_button '#' %>
+              <%= delete_button '#' %>
+            </td>
+          </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
