@@ -24,7 +24,7 @@ module ApplicationHelper
   end
 
   def submit_button form
-    form.button :submit, '送出', class: 'btn btn-md btn-success'
+    form.button :submit, '送出', class: 'btn btn-sm btn-success'
   end
 
   def no_data_alert

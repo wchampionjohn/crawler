@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161110020937) do
+ActiveRecord::Schema.define(version: 20161117023118) do
 
   create_table "pixnet_articles", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.integer  "user_id",                  null: false
@@ -35,10 +35,16 @@ ActiveRecord::Schema.define(version: 20161110020937) do
   end
 
   create_table "pixnet_users", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
-    t.string   "name",          null: false, comment: "pixnet username"
+    t.string   "name",                        null: false, comment: "pixnet username"
     t.integer  "article_count"
-    t.datetime "created_at",    null: false
-    t.datetime "updated_at",    null: false
+    t.datetime "created_at",                  null: false
+    t.datetime "updated_at",                  null: false
+    t.string   "account"
+    t.text     "description",   limit: 65535
+    t.string   "keyword"
+    t.string   "site_category"
+    t.string   "hits"
+    t.string   "avatar"
   end
 
 end

@@ -12,8 +12,12 @@ class ResourcesController < ApplicationController
     @current_object = collection_scope.create(object_params)
     respond_to do |f|
       f.html do
-        flash[:success] = '新增成功'
-        redirect_to url_after_create
+        if @current_object.valid?
+          flash[:success] = '新增成功'
+          redirect_to url_after_create
+        else
+          render :new
+        end
       end
       f.json
     end
