@@ -18,7 +18,7 @@
   </div>
   <div class="form-group">
     <label class="control-label"> 點擊數</label>
-    <p class="help-block">未同步</p>
+    <%= formated_hits(current_object.hits)%>
     <%= f.input :description, as: :text, label: '介紹', label_html: { class: "control-label" }, input_html: { class: 'form-control',  maxlength: '140', row: '7' } %>
   </div>
   <div class="form-group">
