@@ -1,0 +1,18 @@
+<div class="container">
+  <div class="row">
+    <div class="col-lg-12">
+      <h2 class="page-header">Pixnet
+        <small>User編輯</small>
+      </h1>
+
+      <ol class="breadcrumb">
+        <li><%= link_to("Home", root_path) %></li>
+        <li>Pixnet</li>
+        <li><%= link_to "User", pixnet_users_path %></li>
+        <li><%= current_object.full_name %></li>
+      </ol>
+    <%= render 'form' %>
+    </div>
+  </div>
+
+</div>

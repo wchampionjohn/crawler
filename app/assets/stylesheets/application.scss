@@ -16,3 +16,9 @@
 
 @import "bootstrap-sprockets";
 @import "bootstrap";
+/* Color of invalid field */
+.error .control-label,
+.error .help-block,
+.error .form-control-feedback {
+    color: #a94442;
+}

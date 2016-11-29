@@ -1,0 +1,30 @@
+<div class="form-area">
+  <%= simple_form_for current_object do |f| %>
+  <br style="clear:both">
+  <div id="account-div" class="form-group has-feedback">
+    <label class="control-label" for="inputSuccess2"><abbr title="required">*</abbr> 帳號</label>
+    <%= f.input_field :account, { class: 'form-control', id: 'account', disabled: !current_object.new_record? } %>
+    <span id="account-span" class="glyphicon form-control-feedback" aria-hidden="true"></span>
+    <span class="sr-only">(success)</span>
+  </div>
+  <div class="form-group">
+    <%= f.input :name, label: '暱稱', label_html: { class: "control-label" }, input_html: { class: 'form-control' } %>
+  </div>
+  <div class="form-group">
+    <%= f.input :keyword, label: '關鍵字', label_html: { class: "control-label" }, input_html: { class: 'form-control' } %>
+  </div>
+  <div class="form-group">
+    <%= f.input :site_category, label: '分類', label_html: { class: "control-label" }, input_html: { class: 'form-control' } %>
+  </div>
+  <div class="form-group">
+    <label class="control-label"> 點擊數</label>
+    <%= formated_hits(current_object.hits)%>
+    <%= f.input :description, as: :text, label: '介紹', label_html: { class: "control-label" }, input_html: { class: 'form-control',  maxlength: '140', row: '7' } %>
+  </div>
+  <div class="form-group">
+    <%= f.button :submit, '儲存', class: 'btn btn-sm btn-success' %>
+    <%=  link_to '同步並儲存', 'javascript:void(0)', id: "sync",  class: 'btn btn-sm btn-primary' %>
+  </div>
+  <% end %>
+</div>
+
