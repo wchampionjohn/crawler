@@ -33,7 +33,7 @@
           <tr>
             <th scope="row"><%= num %></th>
             <td><%=user.account %></td>
-            <td><%=user.name %></td>
+            <td><%=user.name.html_safe %></td>
             <td><%=user.article_count.to_i %></td>
             <td>
               <%= origin_button pixnet_blog_link(user) %>

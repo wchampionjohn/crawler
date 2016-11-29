@@ -1,4 +1,17 @@
 module ApplicationHelper
+  def alert_class type
+    flash_type_mapping[type.to_sym]
+  end
+
+  def flash_type_mapping
+    {
+      error:   'alert-danger',
+      notice:  'alert-info',
+      success: 'alert-success',
+      wraning: 'alert-warning',
+    }
+  end
+
   def show_button path
     link_to '檢視', path, class: 'btn btn-xs btn-primary' if params[:action] != 'show'
   end
