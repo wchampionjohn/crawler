@@ -14,5 +14,8 @@ module Crawler
     # -- all .rb files in that directory are automatically loaded.
     config.i18n.enforce_available_locales = false
     config.i18n.default_locale = "zh-TW"
+    config.generators do |g|
+      g.test_framework :rspec
+    end
   end
 end

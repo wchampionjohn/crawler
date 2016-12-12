@@ -14,7 +14,7 @@ class Pixnet::User < ApplicationRecord
 	end
 
   def fetch_articles
-    json_object = self.class.fetch_json_data(self.request_url)
+    json_object = self.class.fetch_json_data(self.articles_url)
     return nil unless json_object.is_a?(Hash)
     self.update article_count: json_object['total'].to_i
     json_object['articles'].each do |node|
@@ -29,18 +29,18 @@ class Pixnet::User < ApplicationRecord
     fetch_articles #遞迴抓下一頁
   end
 
-  def current_page
-    @current_page ||= 1
-  end
-
-  def request_url(page = current_page)
-    "https://emma.pixnet.cc/blog/articles?user=#{self.account}&format=json&trim_user=1&status=2&page=#{page}&per_page=#{PER_PAGE}&client_id=#{Settings.Pixnet.consumer_key}"
-  end
-
-
   def full_name
     hint = name.blank? ? '' : " (#{name})"
     "#{account}#{hint}"
+  end
+
+  private
+  def base_info_url
+    "https://emma.pixnet.cc/blog?format=json&user=#{self.account}"
+  end
+
+  def articles_url(page = current_page)
+    "https://emma.pixnet.cc/blog/articles?user=#{self.account}&format=json&trim_user=1&status=2&page=#{page}&per_page=#{PER_PAGE}&client_id=#{Settings.Pixnet.consumer_key}"
   end
 
   def fetch_base_info
@@ -48,8 +48,8 @@ class Pixnet::User < ApplicationRecord
     self.attributes=json_object["blog"].slice(*self.class.column_names)
   end
 
-  private
-  def base_info_url
-    "https://emma.pixnet.cc/blog?format=json&user=#{self.account}"
+  def current_page
+    @current_page ||= 1
   end
+
 end
