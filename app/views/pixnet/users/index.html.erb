@@ -1,5 +1,4 @@
 <div class="container">
-
   <div class="row">
     <div class="col-lg-12">
       <h2 class="page-header">Pixnet
@@ -34,10 +33,10 @@
             <th scope="row"><%= num %></th>
             <td><%=user.account %></td>
             <td><%=user.name.html_safe %></td>
-            <td><%=user.article_count.to_i %></td>
+            <td><%= link_to user.articles.count, pixnet_user_articles_path(user) %></td>
             <td>
               <%= origin_button pixnet_blog_link(user) %>
-              <%= fetch_button '#' %>
+              <%= fetch_button fetch_articles_pixnet_user_path(user) %>
               <%= edit_button edit_pixnet_user_path(user) %>
               <%= delete_button pixnet_user_path(user) %>
             </td>

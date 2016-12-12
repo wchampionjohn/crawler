@@ -3,11 +3,16 @@ class Pixnet::UsersController < ::ResourcesController
     @users = Pixnet::User.all
   end
 
+  def fetch_articles
+    flash[:notice] = '程式背景執行中'
+    current_object.fetch_articles
+    redirect_to url_after_update
+  end
+
   def sync
     user = Pixnet::User.find_or_initialize_by({ account: params[:account] })
 
     begin
-      user.sync
       user.save!
     rescue OpenURI::HTTPError => e
       logger.error e

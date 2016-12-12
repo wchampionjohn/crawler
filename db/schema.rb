@@ -10,15 +10,15 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161117023118) do
+ActiveRecord::Schema.define(version: 20161207020007) do
 
   create_table "pixnet_articles", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
-    t.integer  "user_id",                  null: false
-    t.integer  "origin_id",                null: false, comment: "pixnet origin article id"
+    t.integer  "user_id",                       null: false
+    t.integer  "origin_id",                     null: false, comment: "pixnet origin article id"
     t.string   "title"
-    t.text     "content",    limit: 65535
-    t.datetime "created_at",               null: false
-    t.datetime "updated_at",               null: false
+    t.text     "content",    limit: 4294967295
+    t.datetime "created_at",                    null: false
+    t.datetime "updated_at",                    null: false
     t.index ["origin_id"], name: "index_pixnet_articles_on_origin_id", using: :btree
     t.index ["user_id"], name: "index_pixnet_articles_on_user_id", using: :btree
   end
