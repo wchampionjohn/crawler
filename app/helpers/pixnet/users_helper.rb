@@ -11,4 +11,9 @@ module Pixnet::UsersHelper
               end
     content_tag :p, content, class: 'help-block'
   end
+
+  def full_name(user)
+    hint = user.name.blank? ? '' : " (#{user.name})"
+    "#{user.account}#{hint}"
+  end
 end

@@ -1,6 +1,6 @@
 class AddColumnsToPixnetUsers < ActiveRecord::Migration[5.0]
   def change
-    add_column :pixnet_users, :account, :string
+    add_column :pixnet_users, :account,null:false ,  :string
     add_column :pixnet_users, :description, :text
     add_column :pixnet_users, :keyword, :string
     add_column :pixnet_users, :site_category, :string

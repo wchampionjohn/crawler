@@ -13,6 +13,7 @@ class Pixnet::UsersController < ::ResourcesController
     user = Pixnet::User.find_or_initialize_by({ account: params[:account] })
 
     begin
+      user.fetch_base_info
       user.save!
     rescue OpenURI::HTTPError => e
       logger.error e

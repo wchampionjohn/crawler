@@ -6,8 +6,13 @@ class Pixnet::Article < ApplicationRecord
   validates :user, presence: true
   before_validation :fetch_article_data, on: :create
 
-  def request_url
-    "https://emma.pixnet.cc/blog/articles/#{self.origin_id}?user=#{self.user.account}&format=json&status=2&client_id=#{Settings.Pixnet.consumer_key}"
+  def detail_url
+    "https://emma.pixnet.cc/blog/articles/#{self.origin_id}?" + {
+      user: self.account,
+      format: 'json',
+      status: 2,
+      client_id: Settings.Pixnet.consumer_key
+    }.to_query
   end
 
   def fetch_article_data!
@@ -18,7 +23,7 @@ class Pixnet::Article < ApplicationRecord
   def fetch_article_data
     return nil if self.origin_id.blank?
 
-    json_object = self.class.fetch_json_data request_url
+    json_object = self.class.fetch_json_data detail_url
     return nil unless json_object.is_a?(Hash)
 
     self.title = json_object['article']['title'].to_s

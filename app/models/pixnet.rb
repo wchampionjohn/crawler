@@ -18,5 +18,4 @@ module Pixnet
       end
     end
   end
-
 end

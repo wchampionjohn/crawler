@@ -9,7 +9,7 @@
         <li><%= link_to("Home", root_path) %></li>
         <li>Pixnet</li>
         <li><%= link_to "User", pixnet_users_path %></li>
-        <li><%= current_object.full_name %></li>
+        <li><%= full_name(current_object) %></li>
       </ol>
     <%= render 'form' %>
     </div>
