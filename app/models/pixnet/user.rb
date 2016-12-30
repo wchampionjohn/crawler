@@ -1,11 +1,13 @@
 class Pixnet::User < ApplicationRecord
   include Pixnet
-  validates_presence_of :account
-  serialize :hits
+
+  PER_PAGE = 100
 
   has_many :articles, dependent: :destroy
 
-  PER_PAGE = 100
+  validates_presence_of :account
+
+  serialize :hits
 
   def fetch_articles
     json_object = self.class.fetch_json_data(self.articles_url)

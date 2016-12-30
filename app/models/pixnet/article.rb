@@ -8,7 +8,7 @@ class Pixnet::Article < ApplicationRecord
 
   def detail_url
     "https://emma.pixnet.cc/blog/articles/#{self.origin_id}?" + {
-      user: self.account,
+      user: self.user.account,
       format: 'json',
       status: 2,
       client_id: Settings.Pixnet.consumer_key
