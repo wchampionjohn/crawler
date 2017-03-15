@@ -1,0 +1,40 @@
+<%= link_to '新增帳號', new_ruten_user_path, class: 'btn btn-sm btn-primary' %>
+<hr />
+<% if current_collection.any? %>
+<table class="table">
+  <thead>
+    <tr>
+      <th>#</th>
+      <th>帳號</th>
+      <th>露天商品數</th>
+      <th>已抓取商品數</th>
+      <th>評價數</th>
+      <th>正評比</th>
+      <th>備註</th>
+      <th>動作</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% current_collection.each_with_index do |user, num| %>
+    <tr>
+      <th scope="row"><%= num %></th>
+      <td><%=user.account %></td>
+      <td><%=user.office_products_count %></td>
+      <td><%=link_to(user.products_count.to_i, ruten_user_products_path(user)) %></td>
+      <td><%= total_point_for_index(user)%></td>
+      <td><%= user.point_percent.to_s %></td>
+      <td><%=user.memo %></td>
+      <td>
+        <%= ruten_origin_button user.index_url %>
+        <%= fetch_button fetch_products_ruten_user_path(user) %>
+        <%= edit_button edit_ruten_user_path(user) %>
+        <%= delete_button ruten_user_path(user) %>
+      </td>
+    </tr>
+    <% end %>
+  </tbody>
+</table>
+<%= paginate current_collection %>
+<% else %>
+<%= no_data_alert %>
+<% end %>
