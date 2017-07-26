@@ -30,4 +30,5 @@ class Ruten::UsersController < ::ResourcesController
   def object_params
     params.require(:ruten_user).permit(:account, :memo)
   end
+
 end

@@ -30,4 +30,12 @@ module Pixnet::ArticlesHelper
     "http://#{user.account}.pixnet.net"
   end
 
+  def pixnet_articles_breadcrumb user_id
+    if user_id.present?
+      breadcrumb('Pixnet', link_to('文章管理', (pixnet_articles_path)), current_collection.take.user.name)
+    else
+      breadcrumb('Pixnet', '文章管理')
+    end
+  end
+
 end

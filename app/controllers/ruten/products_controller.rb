@@ -1,7 +1,7 @@
-class Pixnet::ArticlesController < ::ResourcesController
+class Ruten::ProductsController < ::ResourcesController
 
   def fetch_remote
-    current_object.fetch_article_data!
+    current_object.fetch_remote_data!
     flash[:success] = '更新完成'
     redirect_to url_after_update
   end
@@ -9,15 +9,13 @@ class Pixnet::ArticlesController < ::ResourcesController
   private
   def collection_scope
     if params[:user_id]
-      @current_pixnet_user ||= ::Pixnet::User.find(params[:user_id])
-      @current_pixnet_user.articles
+      ::Ruten::User.find(params[:user_id]).products
     else
-      ::Pixnet::Article.order(:id)
+      ::Ruten::Product.order(:id)
     end
   end
 
   def object_params
     params.require(:pixnet_article).permit(:title, :content)
   end
-
 end

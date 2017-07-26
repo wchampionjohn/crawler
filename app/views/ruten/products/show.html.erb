@@ -1,0 +1,76 @@
+<div class="container">
+<div class="row">
+  <div class="col-lg-12">
+    <%= render "shared/caption", site: '露天拍賣', title: '商品管理' %>
+    <%= breadcrumb(
+          '露天拍賣',
+          link_to("商品管理", ruten_products_path),
+          link_to(current_object.user.account, ruten_user_products_path(current_object.user)),
+          current_object.title
+        )
+    %>
+
+  </div>
+</div>
+
+<%= render 'btn_group' %>
+<table class="table table-hover">
+  <tbody>
+    <tr>
+      <th class="col-md-2">產品名稱</th>
+      <td>
+        <%= current_object.title %>
+      </td>
+    </tr>
+    <tr>
+      <th class="col-md-2">產品圖片</th>
+      <td>
+        <img src=<%= current_object.main_img %> />
+      </td>
+    </tr>
+    <tr>
+      <th class="col-md-2">價格</th>
+      <td>
+        <%= current_object.price %>
+      </td>
+    </tr>
+    <tr>
+      <th class="col-md-2">已售數量</th>
+      <td>
+        <%= current_object.sale_out_num %>
+      </td>
+    </tr>
+    <tr>
+      <th class="col-md-2">付費方式</th>
+      <td>
+        <%= current_object.pay_way %>
+      </td>
+    </tr>
+    <tr>
+      <th class="col-md-2">運送方式</th>
+      <td>
+        <%= current_object.transport_way %>
+      </td>
+    </tr>
+    <tr>
+      <th class="col-md-2">商品狀況</th>
+      <td>
+        <%= current_object.situation %>
+      </td>
+    </tr>
+    <tr>
+      <th class="col-md-2">商品所在地</th>
+      <td>
+        <%= current_object.location %>
+      </td>
+    </tr>
+    <tr>
+      <th class="col-md-2">上架時間</th>
+      <td>
+        <%= current_object.launched_date %>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<%= render 'btn_group' %>
+</div>

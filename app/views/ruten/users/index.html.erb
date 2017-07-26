@@ -1,14 +1,10 @@
 <div class="container">
   <div class="row">
     <div class="col-lg-12">
-      <h2 class="page-header">露天拍賣
-        <small>賣家管理</small>
-      </h1>
-      <ol class="breadcrumb">
-        <li><a href="/">Home</a></li>
-        <li>露天拍賣</li>
-        <li class="active">賣家管理</li>
-      </ol>
+      <%= render "shared/caption", site: '露天拍賣', title: '賣家管理' %>
+
+      <%= ruten_users_breadcrumb(params['user_id'])%>
+
     </div>
   </div>
 

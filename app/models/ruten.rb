@@ -16,12 +16,9 @@ module Ruten
       response = http.request(request)
       response.error! if response.code != "200"
       html = Nokogiri::HTML(response.body)
-      #rescue Net::HTTPBadRequest => error
-
-      #ErrorLog.save_record(self, url, 'Big5 轉碼失敗')
-      #f.close
-      #return nil
       yield(html) if block_given?
+
+      html
     end
   end
 end

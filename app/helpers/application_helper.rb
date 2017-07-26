@@ -12,6 +12,19 @@ module ApplicationHelper
     }
   end
 
+  def breadcrumb *items
+    content_tag(:ol, class: 'breadcrumb') do
+      concat content_tag(:li, link_to("Home", root_path))
+      items.each_with_index do |item, index|
+        if index == items.size - 1
+          concat content_tag(:li, item, class: 'active')
+        else
+          concat content_tag(:li, item)
+        end
+      end
+    end
+  end
+
   def show_button path
     link_to '檢視', path, class: 'btn btn-xs btn-primary' if params[:action] != 'show'
   end

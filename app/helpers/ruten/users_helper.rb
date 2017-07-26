@@ -26,4 +26,12 @@ module Ruten::UsersHelper
     end
   end
 
+  def ruten_users_breadcrumb user_id
+    if user_id.present?
+      breadcrumb('露天拍賣', link_to("商品管理", ruten_products_path), current_collection.take.user.account)
+    else
+      breadcrumb('露天拍賣', '賣家管理')
+    end
+  end
+
 end

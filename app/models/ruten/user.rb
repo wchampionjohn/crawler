@@ -1,10 +1,30 @@
 class Ruten::User < ApplicationRecord
+
   include Ruten
+
+  has_many :products
 
   validates_presence_of :account, uniqueness: true
   validate :exists_in_ruten # 帳號必須是露天的賣家才可以成功儲存
 
   def fetch_products
+    url = "#{self.index_url}&p=#{current_page}"
+
+    self.class.fetch_page(url) do |html|
+      product_a_tags = html.css('div.rt-store-goods-listing div.item-img a')
+      product_a_tags.each do |a_tag|
+        product_url = a_tag['href']
+        origin_id = product_url.split('?').last
+        ::Ruten::GetProductDataJob.perform_later(self.id, origin_id)
+      end
+
+      return true if product_a_tags.size < 30 # 露天網站每頁商品數最多30
+
+      @current_page += 1
+      fetch_products
+    end
+
+    update(products_count: products.count)
   end
 
   def fetch_base_info
@@ -24,9 +44,9 @@ class Ruten::User < ApplicationRecord
     self.class.fetch_page(self.credit_url) do |html|
       points = html.css('table#table63 tr')[3..-1].map { |tr| tr.css('td').last.text.strip }
       points.delete_if { |point| point == "" }
-      self.good_point  =  points[0] # 好的評價
-      self.soso_point  =  points[3] # 普通的評價
-      self.bad_point   =  points[5] # 不好的評價
+      self.good_point = points[0] # 好的評價
+      self.soso_point = points[3] # 普通的評價
+      self.bad_point  = points[5] # 不好的評價
     end
 
     self
@@ -40,7 +60,7 @@ class Ruten::User < ApplicationRecord
 
   def point_percent
     if self.total_point.present?
-      (self.good_point.to_f / self.total_point.to_f).round(4) * 100 # 算出百分比
+      ((self.good_point.to_f / self.total_point.to_f) * 100).round(2)
     end
   end
 
@@ -54,6 +74,10 @@ class Ruten::User < ApplicationRecord
 
   def credit_url
     "https://mybid.ruten.com.tw/credit/point?#{account}"
+  end
+
+  def current_page
+    @current_page ||= 1
   end
 
   private
@@ -71,4 +95,5 @@ class Ruten::User < ApplicationRecord
       false
     end
   end
+
 end
