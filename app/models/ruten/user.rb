@@ -10,21 +10,20 @@ class Ruten::User < ApplicationRecord
   def fetch_products
     url = "#{self.index_url}&p=#{current_page}"
 
-    self.class.fetch_page(url) do |html|
-      product_a_tags = html.css('div.rt-store-goods-listing div.item-img a')
-      product_a_tags.each do |a_tag|
-        product_url = a_tag['href']
-        origin_id = product_url.split('?').last
-        ::Ruten::GetProductDataJob.perform_later(self.id, origin_id)
-      end
+    html = self.class.fetch_page(url)
 
-      return true if product_a_tags.size < 30 # 露天網站每頁商品數最多30
+    product_a_tags = html.css('div.rt-store-goods-listing div.item-img a')
+    product_a_tags.each do |a_tag|
+      product_url = a_tag['href']
+      origin_id = product_url.split('?').last
+      ::Ruten::GetProductDataJob.perform_later(self.id, origin_id)
 
-      @current_page += 1
-      fetch_products
     end
 
-    update(products_count: products.count)
+    return true if product_a_tags.size < 30 # 露天網站每頁商品數最多30
+
+    @current_page += 1
+    fetch_products
   end
 
   def fetch_base_info
@@ -41,7 +40,7 @@ class Ruten::User < ApplicationRecord
     end
 
     # 賣家評價頁面同步評價資訊
-    self.class.fetch_page(self.credit_url) do |html|
+    self.class.fetch_page(self.credit_url, 'big5') do |html|
       points = html.css('table#table63 tr')[3..-1].map { |tr| tr.css('td').last.text.strip }
       points.delete_if { |point| point == "" }
       self.good_point = points[0] # 好的評價

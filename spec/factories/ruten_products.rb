@@ -1,16 +1,21 @@
 FactoryGirl.define do
   factory :ruten_product, class: 'Ruten::Product' do
-    title "MyString"
-    url "MyString"
-    main_img "MyString"
-    price 1
-    amount "MyString"
-    sale_out_num 1
-    pay_way "MyString"
-    transport_way "MyString"
-    situation "MyString"
-    location "MyString"
-    launched_date "2017-07-04 12:25:41"
-    origin_id "MyString"
+    trait :test do
+      # skip validation callback
+      after(:build) do |product|
+        callbacks = product.class
+                           ._validation_callbacks
+                           .select { |cb| cb.kind.eql?(:before) }.collect(&:filter)
+
+        if callbacks.include? :fetch_remote_data
+          product.class.skip_callback(:validation, :before, :fetch_remote_data)
+        end
+      end
+
+      user do
+        build(:ruten_user, :test)
+      end
+      origin_id '21507497287002' # 某個確實存在於露天網站的商品
+    end
   end
 end

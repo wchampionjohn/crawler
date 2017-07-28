@@ -27,7 +27,7 @@ class Pixnet::User < ApplicationRecord
 
   def fetch_base_info
     json_object = fetch_api_and_parse_json
-    self.attributes=json_object["blog"].slice(*self.class.column_names)
+    self.attributes = json_object["blog"].slice(*self.class.column_names)
     self
   end
 
