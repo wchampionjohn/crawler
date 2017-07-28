@@ -1,0 +1,14 @@
+<div class="container">
+  <div class="row">
+    <div class="col-lg-12">
+      <%= render "shared/caption", site: '露天拍賣', title: '商品管理' %>
+      <%= ruten_products_breadcrumb(params['user_id'])%>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-lg-12">
+      <%= render partial: 'table', locals: { products: current_collection } %>
+    </div>
+  </div>
+</div>

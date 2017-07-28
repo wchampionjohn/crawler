@@ -1,4 +1,5 @@
 class Pixnet::UsersController < ::ResourcesController
+
   def index
     @users = Pixnet::User.all
   end
@@ -34,6 +35,8 @@ class Pixnet::UsersController < ::ResourcesController
   end
 
   def object_params
-    params.require(:pixnet_user).permit(:name, :account, :description, :keyword, :site_category)
+    params.require(:pixnet_user)
+          .permit(:name, :account, :description, :keyword, :site_category)
   end
+
 end

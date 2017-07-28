@@ -6,41 +6,41 @@ RSpec.describe Pixnet::User, type: :model do
     create(:pixnet_user, :test)
   end
 
-  let(:user_resopnse) do
+  let(:user_response) do
     VCR.use_cassette 'pixnet user' do
       Net::HTTP.get_response(URI(user.base_info_url))
     end
   end
 
-  let(:user_resopnse_hash) do
-    JSON.parse(user_resopnse.read_body)
+  let(:user_response_hash) do
+    JSON.parse(user_response.read_body)
   end
 
   let(:user_info) do
-    user_resopnse_hash['blog']
+    user_response_hash['blog']
   end
 
-  let(:articles_resopnse) do
+  let(:articles_response) do
     VCR.use_cassette 'pixnet articles' do
       Net::HTTP.get_response(URI(user.articles_url))
     end
   end
 
-  let(:articles_resopnse_hash) do
-    JSON.parse(articles_resopnse.read_body)
+  let(:articles_response_hash) do
+    JSON.parse(articles_response.read_body)
   end
 
   let(:articles_count) do
-    JSON.parse(articles_resopnse.read_body)['total']
+    JSON.parse(articles_response.read_body)['total']
   end
 
   let(:articles) do
-    JSON.parse(articles_resopnse.read_body)['articles']
+    JSON.parse(articles_response.read_body)['articles']
   end
 
   describe 'fetch base info from pixnet API' do
     it 'returns a 200 OK status' do
-      expect(user_resopnse.code).to eq('200')
+      expect(user_response.code).to eq('200')
     end
     it 'can parse name' do
       expect(user_info['name'].blank?).to eq false
@@ -79,7 +79,7 @@ RSpec.describe Pixnet::User, type: :model do
 
   describe 'fetch articles from pixnet API' do
     it 'returns a 200 OK status' do
-      expect(articles_resopnse.code).to eq('200')
+      expect(articles_response.code).to eq('200')
     end
     it 'can parse articles total count' do
       expect(articles_count).to be_a Integer
@@ -95,7 +95,7 @@ RSpec.describe Pixnet::User, type: :model do
   describe '#fetch_articles', type: :job do
     include ActiveJob::TestHelper
     before(:each) do
-      allow(Pixnet::User).to receive(:fetch_json_data).and_return(articles_resopnse_hash)
+      allow(Pixnet::User).to receive(:fetch_json_data).and_return(articles_response_hash)
     end
     it 'can update articles count' do
       expect { user.fetch_articles }.to change { user.article_count }.from(nil).to articles_count
@@ -111,7 +111,7 @@ RSpec.describe Pixnet::User, type: :model do
       expect(user.description.blank?).to eq true
       expect(user.hits.blank?).to eq true
 
-      expect(user).to receive(:fetch_api_and_parse_json).and_return(user_resopnse_hash)
+      expect(user).to receive(:fetch_api_and_parse_json).and_return(user_response_hash)
       user.fetch_base_info
 
       expect(user.name.blank?).to eq false

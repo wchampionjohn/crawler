@@ -2,7 +2,7 @@ class Pixnet::ArticlesController < ::ResourcesController
 
   def fetch_remote
     current_object.fetch_article_data!
-    flash[:notice] = '程式背景執行中'
+    flash[:success] = '更新完成'
     redirect_to url_after_update
   end
 

@@ -14,4 +14,16 @@ Rails.application.routes.draw do
     end
   end
 
+  namespace :ruten do
+    resources :users do
+      resources :products
+      put 'fetch_products', on: :member
+      get 'sync/:account'  => "users#sync", on: :collection
+    end
+
+    resources :products, except: [:new, :create] do
+      put 'fetch_remote', on: :member
+    end
+  end
+
 end

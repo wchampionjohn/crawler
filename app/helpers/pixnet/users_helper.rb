@@ -16,4 +16,13 @@ module Pixnet::UsersHelper
     hint = user.name.blank? ? '' : " (#{user.name})"
     "#{user.account}#{hint}"
   end
+
+  def pixnet_users_breadcrumb user_id
+    if user_id.present?
+      breadcrumb('Pixnet', link_to('文章管理', (pixnet_articles_path)), current_collection.take.user.name)
+    else
+      breadcrumb('Pixnet', '使用者管理')
+    end
+  end
+
 end

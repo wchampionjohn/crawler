@@ -9,13 +9,14 @@ class ResourcesController < ApplicationController
   end
 
   def create
-    @current_object = collection_scope.create(object_params)
+    @current_object = collection_scope.new(object_params)
     respond_to do |f|
       f.html do
-        if @current_object.valid?
+        if @current_object.save
           flash[:success] = '新增成功'
           redirect_to url_after_create
         else
+          flash.now[:error] = @current_object.errors.full_messages.first
           render :new
         end
       end

@@ -1,0 +1,37 @@
+<div class="form-area">
+  <%= simple_form_for current_object do |f| %>
+  <br style="clear:both">
+  <div id="account-div" class="form-group has-feedback">
+    <label class="control-label" for="inputSuccess2"><abbr title="required">*</abbr> 帳號</label>
+    <%= f.input_field :account, { class: 'form-control', id: 'account', disabled: !current_object.new_record? } %>
+    <span id="account-span" class="glyphicon form-control-feedback" aria-hidden="true"></span>
+    <span class="sr-only">(success)</span>
+  </div>
+  <div class="form-group">
+    <label class="control-label">已抓取商品數</label>
+    <p class="help-block"><%= current_object.products_count.to_i %> </p>
+  </div>
+  <div class="form-group">
+    <label class="control-label">露天商品數</label>
+    <p class="help-block"><%= render_office_products_count current_object %> </p>
+  </div>
+  <div class="form-group">
+    <label class="control-label">賣家評價</label>
+    <p class="help-block"><%= formated_point(current_object) %> </p>
+  </div>
+  <div class="form-group">
+    <%= f.input :memo, label: '備註', label_html: { class: "control-label" }, input_html: { class: 'form-control' } %>
+  </div>
+  <div class="form-group">
+    <%= f.button :submit, '儲存', class: 'btn btn-sm btn-success' %>
+    <%=  link_to '同步並儲存', 'javascript:void(0)', id: "sync",  class: 'btn btn-sm btn-primary' %>
+  </div>
+  <% end %>
+</div>
+
+<script>
+  $("#sync").click(function(){
+    account = $('input[name="ruten_user[account]"]').val();
+    location.href = "/ruten/users/sync/" + account;
+  })
+</script>
